@@ -11,6 +11,9 @@ public class Application
     }
 
     private void run() {
+        /*
+          DEBUG
+         */
         GaussMethod method = new GaussMethod(
                 new double[][] {
                         {2, 5, 3},
@@ -21,6 +24,9 @@ public class Application
                         {5, 5, 5}
         );
         method.run();
+        /*
+          DEBUG_END
+         */
     }
 
 }

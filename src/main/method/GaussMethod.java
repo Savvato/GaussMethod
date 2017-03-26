@@ -2,12 +2,10 @@ package main.method;
 
 public class GaussMethod
 {
-    public double[][] coefficients;
-    public double[] values;
+    private double[][] coefficients;
+    private double[] values;
 
-    public double x1;
-    public double x2;
-    public double y;
+    private double[] arguments;
 
     public GaussMethod(double[][] coefficients, double[] values) {
         this.coefficients = coefficients;
@@ -15,6 +13,12 @@ public class GaussMethod
     }
 
     public void run() {
+        straightRun();
+        reversalRun();
+        printSystem();
+    }
+
+    private void straightRun() {
         for (int k = 0; k < coefficients.length - 1; k++) {
             checkDiagonal();
             for (int i = k + 1; i < coefficients.length; i++) {
@@ -27,7 +31,17 @@ public class GaussMethod
                 values[i] -= m * values[k];
             }
         }
-        print();
+    }
+
+    private void reversalRun() {
+        arguments = new double[coefficients.length];
+        for (int k = coefficients.length - 1; k >= 0; k--) {
+            double buferSum = 0;
+            for (int i = k; i < coefficients.length; i++) {
+                buferSum += coefficients[k][i] * arguments[i];
+            }
+            arguments[k] = (values[k] - buferSum) / coefficients[k][k];
+        }
     }
 
     private void print() {
@@ -36,6 +50,17 @@ public class GaussMethod
                 System.out.print(element + " ");
             }
             System.out.println();
+        }
+    }
+
+    private void printSystem() {
+        for (int rowIndex = 0; rowIndex < coefficients.length; rowIndex++) {
+            String equation = "";
+            for (int columnIndex = 0; columnIndex < coefficients[rowIndex].length; columnIndex++) {
+                equation += " + " + coefficients[rowIndex][columnIndex] + "*" + arguments[columnIndex];
+            }
+            equation += " = " + values[rowIndex];
+            System.out.println(equation);
         }
     }
 
