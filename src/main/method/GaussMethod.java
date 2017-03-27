@@ -2,9 +2,19 @@ package main.method;
 
 public class GaussMethod
 {
+    /**
+     * Матрица коэффициентов системы уравнений
+     */
     private double[][] coefficients;
+
+    /**
+     * Массив значений системы уравнений
+     */
     private double[] values;
 
+    /**
+     * Массив значений аргументов системы уравнений
+     */
     private double[] arguments;
 
     public GaussMethod(double[][] coefficients, double[] values) {
@@ -15,9 +25,12 @@ public class GaussMethod
     public void run() {
         straightRun();
         reversalRun();
-        printSystem();
     }
 
+    /**
+     * Прямой ход алгоритма
+     * Приведение к треугольной системе уравнений
+     */
     private void straightRun() {
         for (int k = 0; k < coefficients.length - 1; k++) {
             checkDiagonal();
@@ -33,37 +46,24 @@ public class GaussMethod
         }
     }
 
+    /**
+     * Обратный ход алгоритма
+     * Нахождение аргументов системы уравнений
+     */
     private void reversalRun() {
         arguments = new double[coefficients.length];
         for (int k = coefficients.length - 1; k >= 0; k--) {
-            double buferSum = 0;
+            double bufferSum = 0;
             for (int i = k; i < coefficients.length; i++) {
-                buferSum += coefficients[k][i] * arguments[i];
+                bufferSum += coefficients[k][i] * arguments[i];
             }
-            arguments[k] = (values[k] - buferSum) / coefficients[k][k];
+            arguments[k] = (values[k] - bufferSum) / coefficients[k][k];
         }
     }
 
-    private void print() {
-        for (double[] rows : coefficients) {
-            for (double element : rows) {
-                System.out.print(element + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    private void printSystem() {
-        for (int rowIndex = 0; rowIndex < coefficients.length; rowIndex++) {
-            String equation = "";
-            for (int columnIndex = 0; columnIndex < coefficients[rowIndex].length; columnIndex++) {
-                equation += " + " + coefficients[rowIndex][columnIndex] + "*" + arguments[columnIndex];
-            }
-            equation += " = " + values[rowIndex];
-            System.out.println(equation);
-        }
-    }
-
+    /**
+     * Проверка на наличие на диагонали нулевых элементов
+     */
     private void checkDiagonal() {
         for (int i = 0; i < coefficients.length; i++) {
             if (coefficients[i][i] == 0) {
@@ -71,10 +71,12 @@ public class GaussMethod
                 break;
             }
         }
-
-
     }
 
+    /**
+     * Перемещение строк
+     * @param rowIndex перемещаемая строка
+     */
     private void rebaseRows(int rowIndex) {
         int nextRowIndex;
         if (rowIndex < coefficients.length - 1) {
@@ -94,4 +96,15 @@ public class GaussMethod
         }
     }
 
+    public double[][] getCoefficients() {
+        return coefficients;
+    }
+
+    public double[] getValues() {
+        return values;
+    }
+
+    public double[] getArguments() {
+        return arguments;
+    }
 }
