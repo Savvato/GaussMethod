@@ -75,6 +75,7 @@ public class GaussMethod
 
     /**
      * Перемещение строк
+     *
      * @param rowIndex перемещаемая строка
      */
     private void rebaseRows(int rowIndex) {
